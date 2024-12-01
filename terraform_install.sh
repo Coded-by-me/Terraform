@@ -64,6 +64,7 @@ install_terraform_in_linux(){
     sudo apt update && sudo apt upgrade -y
     sudo apt install terraform
     echo $(terraform --version)
+    echo "\n\nInstallation is completed!"
 
 }
 
@@ -74,6 +75,7 @@ install_terraform_in_redhat(){
     sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
     sudo yum install terraform
     echo $(terraform --version)
+    echo "\n\nInstallation is completed!"
 
 }
 
@@ -83,6 +85,7 @@ install_terraform_in_mac(){
 
     brew install terraform
     echo $(terraform --version)
+    echo "\n\nInstallation is completed!"
 }
 
 install_terraform_in_unknown(){
@@ -99,6 +102,7 @@ install_terraform_in_unknown(){
     else
         echo "Installation canceled"
     fi
+    echo "\n\nInstallation is completed!"
 }
 
 init_script_message
@@ -120,6 +124,6 @@ if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
     else
         install_terraform_in_unknown
     fi
+else
+    echo "Invalid input. Installation canceled." 
 fi
-
-echo "\n\nInstallation is completed!"
