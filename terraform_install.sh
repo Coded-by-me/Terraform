@@ -22,6 +22,11 @@ ascii_picture="
                                  :=                        
 "
 
+
+init_script_message(){
+    echo -e "\033[38;5;93m$ascii_picture\033[0m"
+}
+
 # 운영 체제를 확인하는 함수
 detect_os() {
     local OS=""
@@ -49,7 +54,11 @@ detect_os() {
     echo "$OS"
 }
 
+
 install_terraform_in_linux(){
+
+    echo "\nLet's install Terraform in Linux"
+
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
     sudo apt update && sudo apt upgrade -y
@@ -59,6 +68,9 @@ install_terraform_in_linux(){
 }
 
 install_terraform_in_redhat(){
+
+    echo "\nLet's install Terraform in Red Hat"
+
     sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
     sudo yum install terraform
     echo $(terraform --version)
@@ -66,12 +78,15 @@ install_terraform_in_redhat(){
 }
 
 install_terraform_in_mac(){
+
+    echo "\nLet's install Terraform in Mac"
+
     brew install terraform
     echo $(terraform --version)
 }
 
 install_terraform_in_unknown(){
-    echo "This OS is Not Supported"
+    echo "\nThis OS is Not Supported"
     echo "BUT, If you want to install terraform through the binary file, PLEASE press 'Y' or 'y'"
     
     read -p "Do you want to install terraform through the binary file? (Y/N) " answer
@@ -86,6 +101,25 @@ install_terraform_in_unknown(){
     fi
 }
 
+init_script_message
 
-# Apply Terraform purple color (ANSI 93) and reset (ANSI 0)
-echo -e "\033[38;5;93m$ascii_picture\033[0m"
+echo "Terraform Installation Script\n"
+
+echo "First, Let's check the OS\n"
+OS=$(detect_os)
+echo "Your OS is $OS\n"
+
+read -p "Do you want to install Terraform? (Y/N) " answer
+if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
+    if [ "$OS" == "Linux" ]; then
+        install_terraform_in_linux
+    elif [ "$OS" == "Red Hat" ]; then
+        install_terraform_in_redhat
+    elif [ "$OS" == "Mac" ]; then
+        install_terraform_in_mac
+    else
+        install_terraform_in_unknown
+    fi
+fi
+
+echo "\n\nInstallation is completed!"
