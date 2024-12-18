@@ -1,10 +1,3 @@
-provider "google"{
-    credentials = file("/Users/heesang/About Develop/terraform/credentials.json")
-    project = "marine-embassy-445113-i3"
-    region = "asia-northeast3"
-    zone = "asia-northeast3-a"
-}
-
 resource "google_compute_network" "vpc_network" {
     name = "test-1"
     auto_create_subnetworks = false

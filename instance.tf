@@ -1,12 +1,16 @@
 resource "google_compute_instance" "default" {
     name = "test-instance"
     machine_type = "f1-micro"
-    zone = "asia-northeast3-a"
+    zone = var.google_zone
+    allow_stopping_for_update = true
     tags = ["ssh"]
 
     boot_disk {
+        # VM Instance 이미지 지정
         initialize_params {
-            image = "debian-cloud/debian-11"
+            image  = "ubuntu-os-cloud/ubuntu-2004-lts"
+            size   = 25  # 25 GB disk size
+            type   = "pd-balanced"
         }
     }
 
