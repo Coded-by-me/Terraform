@@ -1,5 +1,7 @@
 resource "google_compute_network" "vpc_network" {
     name = "test-1"
+
+    # 서브넷을 자동으로 생성할지에 대한 내용
     auto_create_subnetworks = false
     
     # MTU : Maximum Transmission Unit
@@ -12,8 +14,18 @@ resource "google_compute_network" "vpc_network" {
 }
 
 resource "google_compute_subnetwork" "default" {
+  # 서브넷 이름
   name          = "my-custom-subnet"
+
+  # VPC의 CIDR 범위 내에서 서브넷의 CIDR 범위를 지정
+  # /24 -> 11111111 11111111 11111111 00000000 -> 255.255.255.0으로 마스킹
+  # -> 결국 255.255.255.1부터 254까지 사용 가능
   ip_cidr_range = "10.0.1.0/24"
-  region        = "asia-northeast3"
+  
+  # 리전
+  region        = var.google_region
+  
+  # 어떤 네트워크 인터페이스에 속할 지
+  # 
   network       = google_compute_network.vpc_network.id
 }
