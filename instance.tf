@@ -1,7 +1,7 @@
 # resource <provider>_<resource_type> <resource_name> 
 # resource name은 일종의 변수명으로, 해당 리소스의 이름을 지정하는 것이다.
 # backend, infra 등 여러 개의 리소스를 지정할 수 있음
-resource "google_compute_instance" "default" {
+resource "google_compute_instance" "main_instance" {
 
     # 인스턴스 이름
     name = "test-instance"
@@ -38,10 +38,12 @@ resource "google_compute_instance" "default" {
     ## 이전에 선언한 network를 사용함.
     ## terraform에서는 resource간 의존성을 자동으로 파악하여, 자동으로 생성 순서를 정함.
     network_interface {
-        subnetwork = google_compute_subnetwork.default.id
-
-        access_config{
-
+        network = google_compute_network.vpc_network.name
+        subnetwork = google_compute_subnetwork.subnet.id
+        access_config {
+            nat_ip = google_compute_address.main-instance-static-ip.address
         }
     }
+
+
 }
