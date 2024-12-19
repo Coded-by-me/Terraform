@@ -13,7 +13,7 @@ resource "google_compute_network" "vpc_network" {
     mtu = 1460 
 }
 
-resource "google_compute_subnetwork" "default" {
+resource "google_compute_subnetwork" "subnet" {
   # 서브넷 이름
   name          = "my-custom-subnet"
 
@@ -26,6 +26,11 @@ resource "google_compute_subnetwork" "default" {
   region        = var.google_region
   
   # 어떤 네트워크 인터페이스에 속할 지
-  # 
   network       = google_compute_network.vpc_network.id
+}
+
+# Instance Static Ip
+resource "google_compute_address" "main-instance-static-ip" {
+    name = "main-instance-static-ip"
+    region = var.google_region
 }
