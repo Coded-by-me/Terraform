@@ -46,6 +46,6 @@ resource "google_compute_instance" "main_instance" {
     }
 
     metadata = {
-        ssh-keys = "tees3359:${file("./gcp-key.pub")}"
+        ssh-keys = "tees3362:${file("./keys.pub")}"
     }
 }
