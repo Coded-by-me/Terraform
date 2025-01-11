@@ -38,3 +38,10 @@ terraform.rc
 
 # Google Credentials file
 google_credentials.json
+
+# SSH Keys
+## Private keys
+*.pem
+*.ppk
+## Public keys
+*.pub
